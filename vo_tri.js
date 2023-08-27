@@ -9,5 +9,5 @@ readline.question(`Enter a number:`, (user_hand) => {
   } else {
     console.log("Win somhow!");
   }
-  readline.close();
+  readline.close(); // must end i/o blocking
 });
