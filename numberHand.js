@@ -12,10 +12,12 @@ const readline = require("readline").createInterface({
 // --- main application starts ---
 
 const randRange = (min = 0, max = 10) => Math.random() * (max - min) + min;
-// ! keep following 2 lines for references
+// * keep following 2 lines for references
 // const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 // const waitRandomly = (secs) => delay(randRange(secs * 1e3));
+// * following will block the whole running process
 const waitRandomlySync = (secs) => execSync(`sleep ${randRange(secs)}`);
+// ref: https://masteringjs.io/tutorials/node/sleep
 
 readline.question("Enter a number: ", (userInputs) => {
   const userHand = Number(userInputs);
