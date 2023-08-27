@@ -23,20 +23,38 @@ readline.question("Enter a number: ", (userInputs) => {
   const userHand = Number(userInputs);
   const botHand = generateBotHandByCentre(userHand);
 
+  showHand(botHand, "and Bot hand is...");
+
   console.log(checkHands(userHand, botHand)); // ? main game
 
   readline.close(); // must end i/o blocking
 });
 
-function generateBotHandByCentre(aNumber = 10) {
-  const botHand = randRange(0, aNumber * 2);
+function template(strings, ...keys) {
+  // * have funs with template literals
+  // ref: [Tag functions don't even need to return a string!]
+  // ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
+  return (...values) => {
+    const dict = values[values.length - 1] || {};
+    const result = [strings[0]];
+    keys.forEach((key, i) => {
+      const value = Number.isInteger(key) ? values[key] : dict[key];
+      result.push(value, strings[i + 1]);
+    });
+    return result.join("");
+  };
+}
 
-  process.stdout.write("and Bot hand is... ");
+function showHand(aHand, introduce = 'once upon a time... there is a hand [${"aHand"}]') {
+  const introduction = template`${introduce}`(aHand);
+  console.log(introduction);
   waitRandomlySync(3);
   // ! look good but truly violate pure function
-  console.log(`**${botHand}**`);
+  console.log(`[${aHand}]`);
+}
 
-  return botHand;
+function generateBotHandByCentre(aNumber = 10) {
+  return randRange(0, aNumber * 2);
 }
 
 function checkHands(userHand, botHand = generateBotHand()) {
