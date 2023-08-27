@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// --- required modules ---
+
 const { execSync } = require("child_process");
 
 const readline = require("readline").createInterface({
@@ -7,25 +9,33 @@ const readline = require("readline").createInterface({
   output: process.stdout,
 });
 
+// --- main application starts ---
+
 const randRange = (min = 0, max = 10) => Math.random() * (max - min) + min;
+// ! keep following 2 lines for references
 // const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 // const waitRandomly = (secs) => delay(randRange(secs * 1e3));
 const waitRandomlySync = (secs) => execSync(`sleep ${randRange(secs)}`);
-
-const generateBotHandByCentre = (aNumber = 10) => randRange(0, aNumber * 2);
 
 readline.question("Enter a number: ", (userInputs) => {
   const userHand = Number(userInputs);
   const botHand = generateBotHandByCentre(userHand);
 
-  process.stdout.write("and Bot hand is... ");
-  waitRandomlySync(3);
-
-  console.log(`**${botHand}**`);
-  console.log(checkHands(userHand, botHand));
+  console.log(checkHands(userHand, botHand)); // ? main game
 
   readline.close(); // must end i/o blocking
 });
+
+function generateBotHandByCentre(aNumber = 10) {
+  const botHand = randRange(0, aNumber * 2);
+
+  process.stdout.write("and Bot hand is... ");
+  waitRandomlySync(3);
+  // ! look good but truly violate pure function
+  console.log(`**${botHand}**`);
+
+  return botHand;
+}
 
 function checkHands(userHand, botHand = generateBotHand()) {
   return userHand < botHand ? "Eh..." : "[!!] Winner [!!]";
