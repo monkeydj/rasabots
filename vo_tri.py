@@ -1,11 +1,18 @@
 #!/usr/bin/python3
 
-from random import random
+import time
+from random import randrange
 
-bot_hand = random()
-user_hand = input('Enter a number:')
+user_hand = float(input('Enter a number: '))
+
+print("and Bot hand is... ", end=" ")
+
+time.sleep(randrange(0, 3))
+bot_hand = randrange(0, user_hand * 2)
+
+print(f'**{bot_hand}**')
 
 if float(user_hand) <= bot_hand:
     print('Eh...')
 else:
-    print('Win somhow!')
+    print('Win somehow!!!')
