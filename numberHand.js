@@ -10,6 +10,11 @@ readline.question("Enter a number: ", (userInputs) => {
   readline.close(); // must end i/o blocking
 });
 
-function checkHands(userHand, botHand = Math.random()) {
-  return Number(userHand) < botHand ? "Eh..." : "Win somhow!";
+function generateBotHand(min = 0, max = 10) {
+  return Math.random() * (max - min) + min;
+  // I have ridiculously implemented such code countless times...
+}
+
+function checkHands(userHand, botHand = generateBotHand()) {
+  return userHand < botHand ? "Eh..." : "[!!] Winner [!!]";
 }
