@@ -15,4 +15,4 @@ print(f'**{bot_hand}**')
 if float(user_hand) <= bot_hand:
     print('Eh...')
 else:
-    print('Win somehow!!!')
+    print('!!! You Win Luckily !!!')
