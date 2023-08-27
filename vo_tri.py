@@ -1,8 +1,6 @@
-user_hand = process.std.in('Enter a number:')
+user_hand = input('Enter a number:')
 
-if int(user_hand) < 10 {
-    conosle.log('Eh...')
-
-} else { 
-    console.log('Win somhow!')
-    }
+if int(user_hand) < 10:
+    print('Eh...')
+else:
+    print('Win somhow!')
