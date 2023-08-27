@@ -12,8 +12,10 @@ const readline = require("readline").createInterface({
 // --- main application starts ---
 
 const generateBotHandByCentre = (aNumber = 10) => randRange(0, aNumber * 2);
-const checkHands = (userHand, botHand = generateBotHand()) =>
-  userHand < botHand ? "Eh..." : "[!!] Winner [!!]";
+const checkHands = (userHand, botHand = generateBotHand()) => {
+  const result = userHand < botHand ? "Eh..." : "[!!] Winner [!!]";
+  console.log(result);
+};
 
 const showHand = (aHand, introduce = template`got a hand [${"aHand"}]`) =>
   typeof introduce === "function"
@@ -25,8 +27,7 @@ readline.question("Enter a number: ", (userInputs) => {
   const botHand = generateBotHandByCentre(userHand);
 
   showHand(botHand, "and Bot hand is...");
-
-  console.log(checkHands(userHand, botHand)); // ? main game
+  checkHands(userHand, botHand);
 
   readline.close(); // must end i/o blocking
 });
