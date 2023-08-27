@@ -15,13 +15,10 @@ const generateBotHandByCentre = (aNumber = 10) => randRange(0, aNumber * 2);
 const checkHands = (userHand, botHand = generateBotHand()) =>
   userHand < botHand ? "Eh..." : "[!!] Winner [!!]";
 
-const showHand = (aHand, introduce = 'got a hand [${"aHand"}]') => {
-  const introduction = template`${introduce}`(aHand);
-  console.log(introduction);
-  waitRandomlySync(3);
-  // ! look good but truly violate pure function
-  console.log(`[${aHand}]`);
-};
+const showHand = (aHand, introduce = template`got a hand [${"aHand"}]`) =>
+  typeof introduce === "function"
+    ? console.log(introduce({ aHand }))
+    : process.stdout.write(introduce) && waitRandomlySync(3) && console.log(`[${aHand}]`);
 
 readline.question("Enter a number: ", (userInputs) => {
   const userHand = Number(userInputs);
