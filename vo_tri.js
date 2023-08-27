@@ -5,11 +5,11 @@ const readline = require("readline").createInterface({
   output: process.stdout,
 });
 
-readline.question("Enter a number: ", (user_hand) => {
-  if (Number(user_hand) < 10) {
-    conosle.log("Eh...");
-  } else {
-    console.log("Win somhow!");
-  }
+readline.question("Enter a number: ", (userInputs) => {
+  console.log(checkHands(userInputs));
   readline.close(); // must end i/o blocking
 });
+
+function checkHands(userHand, botHand = Math.random()) {
+  return Number(userHand) < botHand ? "Eh..." : "Win somhow!";
+}
