@@ -6,6 +6,7 @@ https://adventofcode.com/2023/day/1
 from os import getcwd
 
 input_file = f"{getcwd()}/input.txt"
+answer = 0
 
 with open(input_file) as fd:
     while True:
@@ -24,3 +25,7 @@ with open(input_file) as fd:
         number += digits[-1] if len(digits) > 1 else ""
 
         print(int(number))
+
+        answer += int(number)
+
+print("Final Answer is:", answer)
