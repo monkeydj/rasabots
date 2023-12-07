@@ -15,7 +15,7 @@ with open(input_file) as fd:
 
         print(input_line.strip(), end=" ---> ")
 
-        chars = input_line.strip().split()
+        chars = list(input_line.strip())
         numbers = filter(lambda x: x.isdigit(), chars)
 
-        print(list(numbers))
+        print(list(numbers), end=" ---> ")
