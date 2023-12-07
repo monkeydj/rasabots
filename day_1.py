@@ -16,6 +16,11 @@ with open(input_file) as fd:
         print(input_line.strip(), end=" ---> ")
 
         chars = list(input_line.strip())
-        numbers = filter(lambda x: x.isdigit(), chars)
+        digits = [x for x in chars if x.isdigit()]
 
-        print(list(numbers), end=" ---> ")
+        print(list(digits), end=" ---> ")
+
+        number = digits[0] if len(digits) > 0 else "0"
+        number += digits[-1] if len(digits) > 1 else ""
+
+        print(int(number))
