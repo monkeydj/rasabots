@@ -30,6 +30,9 @@ def find_digits(line: str = "") -> list[int]:
     Enumerate through every letter in line, check if it's a digit,
     or create a combination of 3-5 letters & compare against digit_letters.
     Return a list of found digit characters.
+
+    NOTE: it still consider consecutive digits also as one digit.
+    eg. '241' is [2, 241, 4, (41, )? 1]
     """
     logger.debug(f"line={line}")
 
