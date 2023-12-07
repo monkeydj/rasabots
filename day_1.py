@@ -21,11 +21,10 @@ with open(input_file) as fd:
 
         print(list(digits), end=" ---> ")
 
-        number = digits[0] if len(digits) > 0 else "0"
-        number += digits[-1] if len(digits) > 1 else ""
+        number = int(digits[0] + digits[-1]) if len(digits) > 0 else 0
 
-        print(int(number))
+        print(number)
 
-        answer += int(number)
+        answer += number
 
 print("Final Answer is:", answer)
