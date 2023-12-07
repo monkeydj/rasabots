@@ -18,27 +18,29 @@ digit_letters = (
 )
 
 
-def find_digits(line: str = "") -> list[str]:
+def get_spelled_digit(letters: str = "") -> str | None:
+    return letters if letters.isdigit() \
+        else str(digit_letters.index(letters)) if letters in digit_letters \
+        else None
+
+
+def find_digits(line: str = "") -> list[int]:
     """
-    Enumerate through every letter in line, check if it's a digit, 
+    Enumerate through every letter in line, check if it's a digit,
     or create a combination of 3-5 letters & compare against digit_letters.
     Return a list of found digit characters.
     """
-    digits, combi = [], ""
-    while len(line) > 0:
-        x, line = line[0], line[1:]
-        logger.debug(f"x={x} combi={combi}")
+    logger.debug(f"line={line}")
 
-        if x.isdigit():
-            digits.append(x)
-            combi = ""  # reset combination
-        else:
-            combi += x
-            if combi in digit_letters:
-                digits.append(str(digit_letters.index(combi)))  # quite ugly
-                combi = ""  # reset as found
+    if len(line) == 0:
+        return []
 
-    return digits
+    digits = [get_spelled_digit(line)] if len(line) <= 5 else \
+        [get_spelled_digit(line[0]), get_spelled_digit(line[:3])] + \
+        [get_spelled_digit(line[:4]), get_spelled_digit(line[:5])] + \
+        find_digits(line[1:])
+
+    return list(filter(None.__ne__, digits))
 
 
 with open(input_file) as fd:
