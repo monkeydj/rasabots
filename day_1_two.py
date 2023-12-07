@@ -17,15 +17,24 @@ digit_letters = (
 
 def find_digits(line: str = "") -> list[str]:
     """
-    Enumerate through digit_letters and
-    replace all of its occurrences in line.
-    Return a list of digit characters.
+    Enumerate through every letter in line, check if it's a digit, 
+    or create a combination of 3-5 letters & compare against digit_letters.
+    Return a list of found digit characters.
     """
+    digits, combi = [], ""
+    while len(line) > 0:
+        x, line = line[0], line[1:]
+        print(f"[debug] x={x} combi={combi}")
+        if x.isdigit():
+            digits.append(x)
+            combi = ""  # reset combination
+        else:
+            combi += x
+            if combi in digit_letters:
+                digits.append(str(digit_letters.index(combi)))  # quite ugly
+                combi = ""  # reset as found
 
-    for i, letters in enumerate(digit_letters):
-        line = re.sub(letters, str(i), line)
-
-    return [x for x in list(line) if x.isdigit()]
+    return digits
 
 
 with open(input_file) as fd:
