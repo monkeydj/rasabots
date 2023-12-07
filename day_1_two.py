@@ -3,8 +3,11 @@ This adheres a solution of day 1 puzzle *Part Two*
 https://adventofcode.com/2023/day/1
 """
 
-from os import getcwd
-import re
+from os import getcwd, getenv
+import logging
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=getenv("LOG_LEVEL", "DEBUG").upper())
 
 input_file = f"{getcwd()}/input.txt"
 answer = 0
@@ -24,7 +27,8 @@ def find_digits(line: str = "") -> list[str]:
     digits, combi = [], ""
     while len(line) > 0:
         x, line = line[0], line[1:]
-        print(f"[debug] x={x} combi={combi}")
+        logger.debug(f"x={x} combi={combi}")
+
         if x.isdigit():
             digits.append(x)
             combi = ""  # reset combination
@@ -46,11 +50,9 @@ with open(input_file) as fd:
         print(input_line.strip(), end=" ---> ")
 
         digits = find_digits(input_line.strip())
-
         print(list(digits), end=" ---> ")
 
         number = int(digits[0] + digits[-1]) if len(digits) > 0 else 0
-
         print(number)
 
         answer += number
