@@ -1,2 +1,9 @@
 .vscode
+
 .env
+
+*.txt
+
+*.png
+*.jpg
+*.jpeg
