@@ -15,6 +15,13 @@ digit_letters = (
 digit_map = dict(zip(digit_letters, range(0, 10)))
 
 
+def find_digits(line):
+    chars = list(input_line.strip())
+    digits = [x for x in chars if x.isdigit()]
+
+    return digits
+
+
 with open(input_file) as fd:
     while True:
         input_line = fd.readline()
@@ -23,8 +30,7 @@ with open(input_file) as fd:
 
         print(input_line.strip(), end=" ---> ")
 
-        chars = list(input_line.strip())
-        digits = [x for x in chars if x.isdigit()]
+        digits = find_digits(input_line.strip())
 
         print(list(digits), end=" ---> ")
 
