@@ -13,4 +13,9 @@ with open(input_file) as fd:
         if not input_line:
             break
 
-        print(input_line.strip())
+        print(input_line.strip(), end=" ---> ")
+
+        chars = input_line.strip().split()
+        numbers = filter(lambda x: x.isdigit(), chars)
+
+        print(list(numbers))
