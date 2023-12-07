@@ -4,6 +4,7 @@ https://adventofcode.com/2023/day/1
 """
 
 from os import getcwd
+import re
 
 input_file = f"{getcwd()}/input.txt"
 answer = 0
@@ -12,14 +13,19 @@ digit_letters = (
     "zero", "one", "two", "three", "four",
     "five", "six", "seven", "eight", "nine"
 )
-digit_map = dict(zip(digit_letters, range(0, 10)))
 
 
-def find_digits(line):
-    chars = list(input_line.strip())
-    digits = [x for x in chars if x.isdigit()]
+def find_digits(line: str = "") -> list[str]:
+    """
+    Enumerate through digit_letters and
+    replace all of its occurrences in line.
+    Return a list of digit characters.
+    """
 
-    return digits
+    for i, letters in enumerate(digit_letters):
+        line = re.sub(letters, str(i), line)
+
+    return [x for x in list(line) if x.isdigit()]
 
 
 with open(input_file) as fd:
