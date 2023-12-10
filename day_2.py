@@ -13,12 +13,14 @@ input_file = f"{getcwd()}/input.txt"
 inputs = (i for i in open(input_file))
 
 for input_line in inputs:
-    print(input_line.strip(), end=" --> ")
+    input_line = input_line.strip()
+    print(input_line)
 
-    game_id, records = input_line.strip().split(": ")
+    game_id, records = input_line.split(": ")
     game_id = int(game_id.replace("Game", "").strip())
-    records = re.split("; ", records)
-    print(f"[#{game_id}] {records}")
+
+    for rec in re.split("; ", records):
+        print(f" --> [#{game_id}] {rec}", end=" --> ...\n")
 
     answer += game_id
 
