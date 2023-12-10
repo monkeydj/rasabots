@@ -13,22 +13,17 @@ input_file = f"{getcwd()}/input.txt"
 inputs = (i for i in open(input_file))
 
 
-def extract(game_inputs):
-    for data in re.split("; ", game_inputs):
-        elf_s_hand = re.findall(r'(\d+) (blue|red|green)', data)
-        print(f" --> {elf_s_hand}", end=" --> ...")
-
-        for cube in elf_s_hand:
-            yield cube
-
-
 def is_possible(game_inputs):
-    for count, cube_color in extract(game_inputs):
+    colored_cubes = re.findall(r'(\d+) (blue|red|green)', game_inputs)
+
+    for count, cube_color in colored_cubes:
+        print(f" --> {cube_color}: {count}", end=" --> ...")
+
         if int(count) > CUBES_IN_BAG.get(cube_color, 0):
             print("ERRORED!!")
             return False
-        else:
-            print("PASS")
+
+        print("PASS")
 
     return True
 
