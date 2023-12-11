@@ -1,5 +1,6 @@
 """
-This adheres a solution of Day 2 puzzle - https://adventofcode.com/2023/day/2
+This adheres a solution of Day 2 puzzle Part Two
+- https://adventofcode.com/2023/day/2#part2
 """
 
 from os import getcwd
