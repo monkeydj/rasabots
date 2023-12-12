@@ -3,7 +3,6 @@ This adheres a solution of Day 3 puzzle
 - https://adventofcode.com/2023/day/3
 """
 
-from functools import reduce
 from os import getcwd
 
 import re
@@ -23,26 +22,25 @@ def find_part_numbers(input_line: str) -> int:
     for sym in re.finditer(symbols, input_line):
         span = sym.span()
 
-        print(f" --> symbol [{sym.group(0)}, span={span}]")
+        if prev_input is not None:
+            prev_slice = prev_input[span[0] - 3:span[1] + 3]
+            part_numbers += re.findall(r'\d+', prev_slice)
 
         # find numbers before or after symbols (not dot)
-        part_numbers += re.findall(r'\d+', input_line[span[0] - 3:span[0]])
-        part_numbers += re.findall(r'\d+', input_line[span[1]:span[1] + 3])
-
-        if prev_input is not None:
-            schemetic_slice = prev_input[span[0] - 3:span[1] + 3]
-            part_numbers += re.findall(r'\d+', schemetic_slice)
-
-    print(f" --> parts: {part_numbers}")
+        input_slice = input_line[span[0] - 3:span[1] + 3]
+        part_numbers += re.findall(r'\d+', input_slice)
 
     return sum([int(x) for x in part_numbers])
 
 
 for input_line in inputs:
     input_line = input_line.strip()
-    print(input_line)
+    print(input_line, end=" ---> ")
 
-    answer += find_part_numbers(input_line)
+    parts_sum = find_part_numbers(input_line)
+    print(parts_sum)
+
+    answer += parts_sum
 
     prev_input = input_line  # track previously loaded input
 
