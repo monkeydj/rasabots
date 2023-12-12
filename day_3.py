@@ -26,7 +26,9 @@ def check_part_number(number: re.Match, engine_line: str) -> int:
     if engine_line is None or len(engine_line) == 0:
         return 0
 
-    engine_slice = engine_line[number.start() - 1:number.end() + 1]
+    start = number.start() - 1 if number.start() > 0 else 0
+    end = number.end() + 1 if number.end() < len(engine_line) else 0
+    engine_slice = engine_line[start: end]
     connected = re.search(r'[^\w\.]', engine_slice)
 
     return int(number.group(0)) if connected else 0
