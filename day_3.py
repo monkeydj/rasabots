@@ -14,6 +14,7 @@ inputs = (i for i in open(input_file))
 answer = 0  # hold the expected output
 
 # TODO: make a closure to not have this var 'globally'
+prev_line = None
 prev_numbers = []
 
 
@@ -22,6 +23,9 @@ def check_part_number(number: re.Match, engine_line: str) -> int:
     As one may be adjacent to one or many symbols, so simply
     find if any symbol is around number's span in engine_line.
     """
+    if engine_line is None or len(engine_line) == 0:
+        return 0
+
     engine_slice = engine_line[number.start() - 1:number.end() + 1]
     connected = re.search(r'[^\w\.]', engine_slice)
 
@@ -36,6 +40,7 @@ def unwind_schemetic(engine_line: str) -> int:
 
     for number in re.finditer(r'\d+', engine_line):
         prev_numbers.append(number)  # track found number
+        parts_sum += check_part_number(number, prev_line)
         parts_sum += check_part_number(number, engine_line)
 
     return parts_sum
@@ -56,6 +61,8 @@ for input_line in inputs:
     print(parts_sum)
 
     answer += parts_sum
+
+    prev_line = input_line
 
 
 print(f"[[[ Final Answer Is: {answer} ]]]")
