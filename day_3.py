@@ -34,37 +34,27 @@ def check_part_number(number: re.Match, engine_line: str) -> int:
     return int(number.group(0)) if connected else 0
 
 
-def unwind_schemetic(engine_line: str) -> int:
-    """
-    Try to unwind each line & prev. tracked line of the engine schemetic.
-    """
-    parts_sum = 0
-
-    for number in re.finditer(r'\d+', engine_line):
-        prev_numbers.append(number)  # track found number
-        parts_sum += check_part_number(number, prev_line)
-        parts_sum += check_part_number(number, engine_line)
-
-    return parts_sum
-
-
-for input_line in inputs:
-    input_line = input_line.strip()
-    print(input_line, end=" ---> ")
+for engine_line in inputs:
+    engine_line = engine_line.strip()
+    print(engine_line, end=" ---> ")
 
     parts_sum = 0
 
     while len(prev_numbers) > 0:
         number, prev_numbers = prev_numbers[0], prev_numbers[1:]
-        parts_sum += check_part_number(number, input_line)
+        parts_sum += check_part_number(number, engine_line)
         print(parts_sum, end="/")
 
-    parts_sum += unwind_schemetic(input_line)
-    print(parts_sum)
+    for number in re.finditer(r'\d+', engine_line):
+        prev_numbers.append(number)  # track found number
+        parts_sum += check_part_number(number, prev_line)
+        parts_sum += check_part_number(number, engine_line)
+        print(parts_sum, end="/")
 
     answer += parts_sum
 
-    prev_line = input_line
+    prev_line = engine_line
+    print()  # end of line
 
 
 print(f"[[[ Final Answer Is: {answer} ]]]")
