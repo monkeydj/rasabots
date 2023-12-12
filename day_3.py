@@ -35,25 +35,24 @@ def check_part_number(number: re.Match, engine_line: str) -> int:
 
 
 for engine_line in inputs:
-    engine_line = engine_line.strip()
-    print(engine_line, end=" ---> ")
+    parts_sum, engine_line = 0, engine_line.strip()
 
-    parts_sum = 0
+    print(engine_line, end="\n ---> ")
 
     while len(prev_numbers) > 0:
         number, prev_numbers = prev_numbers[0], prev_numbers[1:]
         parts_sum += check_part_number(number, engine_line)
-        print(parts_sum, end="/")
+        print(parts_sum, end="/" if len(prev_numbers) > 0 else " ~~ ")
 
     for number in re.finditer(r'\d+', engine_line):
         prev_numbers.append(number)  # track found number
-        parts_sum += check_part_number(number, prev_line)
-        parts_sum += check_part_number(number, engine_line)
+        parts_sum += check_part_number(number, prev_line) \
+            or check_part_number(number, engine_line)
         print(parts_sum, end="/")
 
+    prev_line = engine_line  # track for next iteration
     answer += parts_sum
 
-    prev_line = engine_line
     print()  # end of line
 
 
