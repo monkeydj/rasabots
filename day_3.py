@@ -13,28 +13,31 @@ inputs = (i for i in open(input_file))
 
 answer = 0  # hold the expected output
 
-# TODO: make a closure to not have this var 'globally'
-prev_input = None
 
+def unwind_engine(schematic_line):
+    prev_input = None
 
-def check_part_numbers(input_line: str, symbols: str = r'[^\w\.]') -> int:
-    # not alphanumeric and dot
-    print(f" --> sym-ctrl: {re.findall(symbols, input_line)}")
+    def check_part_numbers(symbols: str = r'[^\w\.]') -> int:
+        # not alphanumeric and dot
+        print(f" --> sym-ctrl: {re.findall(symbols, schematic_line)}")
 
-    # search numbers before or after symbols (not dot)
-    search = rf'(\d+(?={symbols})|(?<={symbols})\d+)'
-    part_numbers = re.findall(search, input_line)
-    print(f" --> parts: {part_numbers}")
+        # search numbers before or after symbols (not dot)
+        search = rf'(\d+(?={symbols})|(?<={symbols})\d+)'
+        part_numbers = re.findall(search, schematic_line)
+        print(f" --> parts: {part_numbers}")
 
-    return sum([int(x) for x in part_numbers])
+        prev_input = schematic_line  # track previously loaded input
+
+        return sum([int(x) for x in part_numbers])
+
+    return check_part_numbers()
 
 
 for input_line in inputs:
     input_line = input_line.strip()
     print(input_line)
 
-    answer += check_part_numbers(input_line)
+    answer += unwind_engine(input_line)
 
-    prev_input = input_line  # track previously loaded input
 
 print(f"[[[ Final Answer Is: {answer} ]]]")
