@@ -42,18 +42,18 @@ for engine_line in inputs:
     while len(prev_numbers) > 0:
         number, prev_numbers = prev_numbers[0], prev_numbers[1:]
         parts_sum += check_part_number(number, engine_line)
+
         print(parts_sum, end="/" if len(prev_numbers) > 0 else " ~~ ")
 
     for number in re.finditer(r'\d+', engine_line):
         prev_numbers.append(number)  # track found number
         parts_sum += check_part_number(number, prev_line) \
             or check_part_number(number, engine_line)
+
         print(parts_sum, end="/")
+    print()  # for end of line
 
     prev_line = engine_line  # track for next iteration
     answer += parts_sum
-
-    print()  # end of line
-
 
 print(f"[[[ Final Answer Is: {answer} ]]]")
