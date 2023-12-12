@@ -8,11 +8,6 @@ from os import getcwd
 
 import re
 
-input_file = f"{getcwd()}/input.txt"
-inputs = (i for i in open(input_file))
-
-answer = 0  # hold the expected output
-
 
 def unwind_engine(schematic_line):
     prev_input = None
@@ -32,6 +27,11 @@ def unwind_engine(schematic_line):
 
     return check_part_numbers()
 
+
+input_file = f"{getcwd()}/input.txt"
+inputs = (i for i in open(input_file))
+
+answer = 0  # hold the expected output
 
 for input_line in inputs:
     input_line = input_line.strip()
