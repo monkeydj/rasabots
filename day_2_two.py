@@ -7,17 +7,19 @@ from os import getcwd
 import re
 
 
-def get_cube_powers(game_inputs):
-    colored_cubes = re.findall(r'(\d+) (blue|red|green)', game_inputs)
-    cubes_posibility = {"red": 0, "green": 0, "blue": 0}
+def count_least_cubes(color: str, game_inputs: str) -> int:
+    colored_cubes = re.findall(rf'(\d+) {color}', game_inputs)
+    least_count = max(*[int(x) for x in colored_cubes])
 
-    for count, cube_color in colored_cubes:
-        print(f" --> {cube_color}: {count}", end=" --> ...")
-        # TODO: update max value in cubes_posibility
+    print(f" --> {color}: {colored_cubes} --> {least_count}")
 
-    return cubes_posibility.get("red") * \
-        cubes_posibility.get("green") * \
-        cubes_posibility.get("blue")
+    return least_count
+
+
+def get_cube_powers(game_inputs: str) -> int:
+    return count_least_cubes("red", game_inputs) * \
+        count_least_cubes("green", game_inputs) * \
+        count_least_cubes("blue", game_inputs)
 
 
 answer = 0  # hold the expected output
