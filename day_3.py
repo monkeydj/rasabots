@@ -9,19 +9,25 @@ import re
 input_file = f"{getcwd()}/input.txt"
 inputs = (i for i in open(input_file))
 
-symbols = r'[^\w\.]'  # not alphanumeric and dot
-
 answer = 0  # hold the expected output
-prev_input = None  # track previously loaded input
+
+# TODO: make a closure to not have this var 'globally'
+prev_input = None
+
+
+def check_part_numbers(input_line: str, symbols: str = r'[^\w\.]') -> int:
+    # not alphanumeric and dot
+    print(f"sym-ctrl: {re.findall(symbols, input_line)}")
+
+    return 0
+
 
 for input_line in inputs:
     input_line = input_line.strip()
     print(input_line, end=" --> ")
 
-    print(f"sym-ctrl: {re.findall(symbols, input_line)}")
+    answer += check_part_numbers(input_line)
 
-    prev_input = input_line
-
-    # answer += game_id
+    prev_input = input_line  # track previously loaded input
 
 print(f"[[[ Final Answer Is: {answer} ]]]")
