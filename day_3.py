@@ -14,34 +14,29 @@ inputs = (i for i in open(input_file))
 answer = 0  # hold the expected output
 
 # TODO: make a closure to not have this var 'globally'
-prev_input = None
-prev_symbols = []
+prev_numbers = []
 
 
-def find_part_numbers(symbol: re.Match, engine_line: str) -> int:
+def check_part_number(number: re.Match, engine_line: str) -> int:
     """
-    Find numbers around a symbol span.
+    As one may be adjacent to one or many symbols, so simply
+    find if any symbol is around number's span in engine_line.
     """
-    sym, span = symbol.group(0), symbol.span()
-    engine_slice = engine_line[span[0] - 3:span[1] + 3]
-    engine_numbers = re.findall(r'\d+', engine_slice)
+    engine_slice = engine_line[number.start() - 1:number.end() + 1]
+    connected = re.search(r'[^\w\.]', engine_slice)
 
-    return sum([int(x) for x in engine_numbers])
+    return int(number.group(0)) if connected else 0
 
 
 def unwind_schemetic(engine_line: str) -> int:
     """
-    Try to unwind each line & prev. tracked line of the engine schemetic:
+    Try to unwind each line & prev. tracked line of the engine schemetic.
     """
-    symbols, parts_sum = r'[^\w\.]', 0
+    parts_sum = 0
 
-    for sym in re.finditer(symbols, engine_line):
-        prev_symbols.append(sym)  # track found symbols
-
-        if prev_input is not None:
-            parts_sum += find_part_numbers(sym, prev_input)
-
-        parts_sum += find_part_numbers(sym, engine_line)
+    for number in re.finditer(r'\d+', engine_line):
+        prev_numbers.append(number)  # track found number
+        parts_sum += check_part_number(number, engine_line)
 
     return parts_sum
 
@@ -52,17 +47,15 @@ for input_line in inputs:
 
     parts_sum = 0
 
-    while len(prev_symbols) > 0:
-        sym, prev_symbols = prev_symbols[0], prev_symbols[1:]
-        parts_sum += find_part_numbers(sym, input_line)
+    while len(prev_numbers) > 0:
+        number, prev_numbers = prev_numbers[0], prev_numbers[1:]
+        parts_sum += check_part_number(number, input_line)
         print(parts_sum, end="/")
 
     parts_sum += unwind_schemetic(input_line)
     print(parts_sum)
 
     answer += parts_sum
-
-    prev_input = input_line  # track previously loaded
 
 
 print(f"[[[ Final Answer Is: {answer} ]]]")
