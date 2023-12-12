@@ -18,10 +18,11 @@ prev_input = None
 prev_symbols = []
 
 
-def find_part_numbers(span: [int, int], engine_line: str) -> int:
+def find_part_numbers(symbol: re.Match, engine_line: str) -> int:
     """
     Find numbers around a symbol span.
     """
+    sym, span = symbol.group(0), symbol.span()
     engine_slice = engine_line[span[0] - 3:span[1] + 3]
     engine_numbers = re.findall(r'\d+', engine_slice)
 
@@ -35,13 +36,12 @@ def unwind_schemetic(engine_line: str) -> int:
     symbols, parts_sum = r'[^\w\.]', 0
 
     for sym in re.finditer(symbols, engine_line):
-        span = sym.span()
-        prev_symbols.append(span)  # track found symbols
+        prev_symbols.append(sym)  # track found symbols
 
         if prev_input is not None:
-            parts_sum += find_part_numbers(span, prev_input)
+            parts_sum += find_part_numbers(sym, prev_input)
 
-        parts_sum += find_part_numbers(span, engine_line)
+        parts_sum += find_part_numbers(sym, engine_line)
 
     return parts_sum
 
@@ -53,9 +53,9 @@ for input_line in inputs:
     parts_sum = 0
 
     while len(prev_symbols) > 0:
-        prev_span, prev_symbols = prev_symbols[0], prev_symbols[1:]
-        parts_sum += find_part_numbers(prev_span, input_line)
-        print(parts_sum, end=" + ")
+        sym, prev_symbols = prev_symbols[0], prev_symbols[1:]
+        parts_sum += find_part_numbers(sym, input_line)
+        print(parts_sum, end="/")
 
     parts_sum += unwind_schemetic(input_line)
     print(parts_sum)
