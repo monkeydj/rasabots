@@ -7,6 +7,7 @@ from os import getcwd
 
 import re
 
+
 input_file = f"{getcwd()}/input.txt"
 inputs = (i for i in open(input_file))
 
@@ -44,6 +45,5 @@ for input_line in inputs:
 
     answer += parts_sum
 
-    prev_input = input_line  # track previously loaded input
 
 print(f"[[[ Final Answer Is: {answer} ]]]")
