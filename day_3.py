@@ -25,6 +25,8 @@ def find_part_numbers(input_line: str) -> int:
         if prev_input is not None:
             prev_slice = prev_input[span[0] - 3:span[1] + 3]
             part_numbers += re.findall(r'\d+', prev_slice)
+        # above if is like a lookbehind for any desired numbers
+        # TODO: implement lookahead with prev_symbols
 
         # find numbers before or after symbols (not dot)
         input_slice = input_line[span[0] - 3:span[1] + 3]
