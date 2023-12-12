@@ -9,7 +9,7 @@ import re
 
 def count_least_cubes(color: str, game_inputs: str) -> int:
     colored_cubes = re.findall(rf'(\d+) {color}', game_inputs)
-    least_count = max(*[int(x) for x in colored_cubes])
+    least_count = max([int(x) for x in colored_cubes])
 
     print(f" --> {color}: {colored_cubes} --> {least_count}")
 
