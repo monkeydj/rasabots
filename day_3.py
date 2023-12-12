@@ -8,14 +8,11 @@ from os import getcwd
 import re
 
 
-input_file = f"{getcwd()}/input.txt"
-inputs = (i for i in open(input_file))
+def mark(part_number: int, output_line: str = "") -> str:
+    def hightlight(m):
+        return f"\033[1m{m.group(0)}\033[0m"
 
-answer = 0  # hold the expected output
-
-# TODO: make a closure to not have this var 'globally'
-prev_line = None
-prev_numbers = []
+    return re.sub(str(part_number), hightlight, output_line)
 
 
 def check_part_number(number: re.Match, engine_line: str) -> int | None:
@@ -34,8 +31,18 @@ def check_part_number(number: re.Match, engine_line: str) -> int | None:
     return int(number.group(0)) if connected else None
 
 
-for engine_line in inputs:
-    parts_sum, engine_line = 0, engine_line.strip()
+# --- main process ----
+
+input_file = f"{getcwd()}/input.txt"
+inputs = (i for i in open(input_file))
+
+answer = 0  # hold the expected output
+
+prev_line, prev_numbers = None, []
+output_line = None
+
+for input_line in inputs:
+    parts_sum, engine_line = 0, input_line.strip()
 
     while len(prev_numbers) > 0:
         number, prev_numbers = prev_numbers[0], prev_numbers[1:]
@@ -43,9 +50,10 @@ for engine_line in inputs:
 
         if part_number:
             parts_sum += part_number
-            print(part_number, end="/")
+            output_line = mark(part_number, output_line)
 
-    print("\n", engine_line, end=" -> ")
+    print(output_line)
+    # * this marks the end of processing one input_line
 
     for number in re.finditer(r'\d+', engine_line):
         part_number = check_part_number(number, prev_line) or \
@@ -56,9 +64,9 @@ for engine_line in inputs:
             prev_numbers.append(number)
         else:
             parts_sum += part_number
-            print(part_number, end="/")
+            output_line = mark(part_number, output_line)
 
-    prev_line = engine_line  # track for next iteration
+    output_line = prev_line = engine_line  # track for next iteration
     answer += parts_sum
 
 print(f"\n[[[ Final Answer Is: {answer} ]]]")
