@@ -10,7 +10,8 @@ import re
 
 def mark(part_number: int, output_line: str = "") -> str:
     def hightlight(m):
-        return f"\033[1m{m.group(0)}\033[0m"
+        # ref: https://stackoverflow.com/a/51708889/8546076
+        return f"\033[1m\033[4m\033[92m{m.group(0)}\033[0m"
 
     return re.sub(str(part_number), hightlight, output_line)
 
@@ -52,8 +53,11 @@ for input_line in inputs:
             parts_sum += part_number
             output_line = mark(part_number, output_line)
 
-    print(output_line)
+    if output_line:
+        print(output_line)
     # * this marks the end of processing one input_line
+
+    output_line = engine_line
 
     for number in re.finditer(r'\d+', engine_line):
         part_number = check_part_number(number, prev_line) or \
@@ -66,7 +70,9 @@ for input_line in inputs:
             parts_sum += part_number
             output_line = mark(part_number, output_line)
 
-    output_line = prev_line = engine_line  # track for next iteration
+    prev_line = engine_line  # track for next iteration
     answer += parts_sum
 
-print(f"\n[[[ Final Answer Is: {answer} ]]]")
+print(output_line)  # very last line
+
+print(f"[[[ Final Answer Is: {answer} ]]]")
