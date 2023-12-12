@@ -11,7 +11,7 @@ import re
 def mark(part_number: int, output_line: str = "") -> str:
     def hightlight(m):
         # ref: https://stackoverflow.com/a/51708889/8546076
-        return f"\033[1m\033[4m\033[92m{m.group(0)}\033[0m"
+        return "\033[4m\033[92m" + m.group(0) + "\033[0m"
 
     return re.sub(str(part_number), hightlight, output_line)
 
