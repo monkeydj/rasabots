@@ -30,11 +30,9 @@ for cr, engine_line in enumerate(engine_schematic):
         print(number, surrounding)
 
         for x, y in surrounding:
-            if any([not (0 <= x < len(engine_schematic)),
-                   not (0 <= y < len(engine_schematic[cr]))]):
-                continue
-
-            if engine_schematic[x][y] != '*':
+            if (not (0 <= x < len(engine_schematic)) or
+                not (0 <= y < len(engine_schematic[cr])) or
+               engine_schematic[x][y] != '*'):
                 continue
 
             found_gear_parts[(x, y)].append(int(number.group(0)))
