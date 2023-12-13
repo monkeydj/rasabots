@@ -33,10 +33,10 @@ def check_part_number(number: re.Match, engine_line: str) -> bool:
     """
     if engine_line is None or len(engine_line) == 0:
         return 0
-
-    start = number.start() - 1 if number.start() > 0 else 0
-    end = number.end() + 1 if number.end() < len(engine_line) else 0
-    engine_slice = engine_line[start: end]
+    # Bard helped me refactoring this - https://g.co/bard/share/0b0df201ae31
+    start = max(0, number.start() - 1)
+    end = min(len(engine_line), number.end() + 1)
+    engine_slice = engine_line[start:end]
     connected = re.search(r'[^\w\.]', engine_slice)
 
     return connected is not None
