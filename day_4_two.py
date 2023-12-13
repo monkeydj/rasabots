@@ -14,17 +14,18 @@ for i, card in enumerate(scratchcards):
     print(card, end=" --> ")
 
     winning, having = re.sub(r"Card \d+: ", "", card).split(" | ")
-    winning, having = winning.split(), having.split()
+    matched = [n for n in having.split() if n in winning.split()]
 
-    # (Cards will never make you copy a card past the end of the table.)
-    scored = 0
-    for n in having:
-        if n in winning:
-            scored = 1 if scored == 0 else scored * 2
-            # win a copy of next card
-            winnng_copies[i + (scored // 2) + 1] += 1
+    print(matched, end=" = ")
+
+    scored = 0 if len(matched) == 0 else 2 ** (len(matched) - 1)
     if scored > 0:
-        winnng_copies[i] += 1  # win a copy of itself
+        # win a copy of itself first
+        winnng_copies[i] += 1
+    # then, win a copy of next card
+    for n in range(len(matched)):
+        # (Cards will never make you copy a card past the end of the table.)
+        winnng_copies[i + n + 1] += 1
 
     print(scored, "copies=", winnng_copies[i])
 
