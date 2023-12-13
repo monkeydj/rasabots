@@ -16,7 +16,7 @@ for card in scratchcards:
 
     winning, having = re.sub(r"Card \d+: ", "", card).split(" | ")
     winning, having = winning.split(), having.split()
-    print(winning, "x", having, end=" = ")
+    # print(winning, "x", having, end=" = ")
 
     scored = 0
     for n in having:
