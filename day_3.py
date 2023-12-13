@@ -8,13 +8,20 @@ from os import getcwd
 import re
 
 
-def mark(part_number: re.Match, output_line: str = "") -> str:
-    # ref: https://stackoverflow.com/a/51708889/8546076
-    marked = "\033[4m\033[92m" + part_number.group(0) + "\033[0m"
-    first_half = output_line[:part_number.start()]
-    second_half = output_line[part_number.end():]
+def mark(part_numbers: list[re.Match], output_line: str = ""):
+    """
+    Print out found part_numbers highlighted in output_line.
+    """
+    chunk_start = 0
 
-    return first_half + marked + second_half
+    for number in part_numbers:
+        print(output_line[chunk_start:number.start()], end="")
+        # ref: https://stackoverflow.com/a/51708889/8546076
+        print("\033[4m\033[92m" + number.group(0) + "\033[0m", end="")
+
+        chunk_start = number.end()
+
+    print(output_line[chunk_start:])  # whatever left
 
 
 def check_part_number(number: re.Match, engine_line: str) -> bool:
@@ -40,8 +47,7 @@ inputs = (i for i in open(input_file))
 
 answer = 0  # hold the expected output
 
-prev_line, obscure_numbers = None, []
-output_line = None
+prev_line, obscure_numbers, found_part_numbers = None, [], []
 
 for input_line in inputs:
     parts_sum, engine_line = 0, input_line.strip()
@@ -51,13 +57,12 @@ for input_line in inputs:
 
         if check_part_number(number, engine_line):
             parts_sum += int(number.group(0))
-            output_line = mark(number, output_line)
+            found_part_numbers.append(number)
 
-    if output_line:
-        print(output_line)
+    if prev_line:
+        mark(found_part_numbers, prev_line)
+        found_part_numbers = []  # reset
     # * this marks the end of processing one input_line
-
-    output_line = engine_line
 
     for number in re.finditer(r'\d+', engine_line):
         is_part_number = check_part_number(number, engine_line)
@@ -65,7 +70,7 @@ for input_line in inputs:
 
         if is_part_number:
             parts_sum += int(number.group(0))
-            output_line = mark(number, output_line)
+            found_part_numbers.append(number)
         else:
             # ! only track number if not yet found connected
             obscure_numbers.append(number)
@@ -73,6 +78,6 @@ for input_line in inputs:
     prev_line = engine_line  # track for next iteration
     answer += parts_sum
 
-print(output_line)  # very last line
+mark(found_part_numbers, prev_line)  # very last line
 
 print(f"[[[ Final Answer Is: {answer} ]]]")
