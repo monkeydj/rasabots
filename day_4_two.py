@@ -10,23 +10,20 @@ import re
 scratchcards = open(argv[1]).read().split('\n')
 winnng_copies = [0] * len(scratchcards)
 
-answer = 0
-
-for n, card in enumerate(scratchcards):
+for i, card in enumerate(scratchcards):
     print(card, end=" --> ")
 
     winning, having = re.sub(r"Card \d+: ", "", card).split(" | ")
     winning, having = winning.split(), having.split()
 
     # (Cards will never make you copy a card past the end of the table.)
-    copies = 0
+    scored = 0
     for n in having:
         if n in winning:
-            copies += 1
-            winnng_copies[copies] += 1
+            scored = 1 if scored == 0 else scored * 2
+            winnng_copies[i + (scored // 2)] += 1
 
-    print(copies)
+    print(scored, "copies=", winnng_copies[i])
 
-    answer += copies
-
+answer = sum(winnng_copies)
 print(f"[Total Score Is: {answer}]")
