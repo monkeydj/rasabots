@@ -8,7 +8,7 @@ from sys import argv
 import re
 
 scratchcards = open(argv[1]).read().split('\n')
-winnng_copies = [0] * len(scratchcards)
+having_copies = [1] * len(scratchcards)  # even not yet won
 
 for i, card in enumerate(scratchcards):
 
@@ -18,15 +18,13 @@ for i, card in enumerate(scratchcards):
     print(card_no + ":", matched, end=" = ")
 
     scored = 0 if len(matched) == 0 else 2 ** (len(matched) - 1)
-    if scored > 0:
-        # win a copy of itself first
-        winnng_copies[i] += 1
-    # then, win that many copies of next card
+
+    # win that many copies of next card
     for n in range(len(matched)):
         # (Cards will never make you copy a card past the end of the table.)
-        winnng_copies[i + n + 1] += winnng_copies[i]
+        having_copies[i + n + 1] += having_copies[i]
 
-    print("scored=", scored, "copies=", winnng_copies[i])
+    print("scored=", scored, "copies=", having_copies[i])
 
-answer = sum(winnng_copies)
+answer = sum(having_copies)
 print(f"[Total Score Is: {answer}]")
