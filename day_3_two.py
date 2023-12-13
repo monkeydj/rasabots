@@ -3,7 +3,8 @@ This adheres a solution of Day 3 puzzle Part Two
 - https://adventofcode.com/2023/day/3#part2
 """
 
-from os import getcwd
+from collections import defaultdict
+from sys import argv
 
 import re
 
@@ -26,55 +27,29 @@ def mark(part_numbers: list[re.Match], output_line: str = ""):
     print(output_line[chunk_start:])  # whatever left
 
 
-def check_part_number(number: re.Match, engine_line: str) -> bool:
-    """
-    Find if any star symbol is around number's span in engine_line.
-    """
-    if engine_line is None or len(engine_line) == 0:
-        return 0
-    # Bard helped me refactoring this - https://g.co/bard/share/0b0df201ae31
-    start = max(0, number.start() - 1)
-    end = min(len(engine_line), number.end() + 1)
-    engine_slice = engine_line[start:end]
-    connected = re.search(r'\*{1}', engine_slice)
-
-    return connected is not None
+def get_area_indexes(r_i: int, start: int, end: int) -> list[tuple]:
+    rows, cols = [r_i + r for r in [-1, 0, 1]], range(start, end + 1)
+    return [(x, y) for x in rows for y in cols]
 
 
 # --- main process ----
+engine_schematic = open(argv[1]).read().split()
+found_gear_parts = defaultdict(list)
 
-input_file = f"{getcwd()}/input.txt"
-inputs = (i for i in open(input_file))
-
-prev_line, obscure_numbers, found_part_numbers = None, [], []
-
-for input_line in inputs:
-    engine_line = input_line.strip()
-
-    while len(obscure_numbers) > 0:
-        number, obscure_numbers = obscure_numbers[0], obscure_numbers[1:]
-
-        if check_part_number(number, engine_line):
-            found_part_numbers.append(number)
-
-    if prev_line:
-        mark(found_part_numbers, prev_line)
-        found_part_numbers = []  # reset
-    # * this marks the end of processing one input_line
-
+for cr, engine_line in enumerate(engine_schematic):
     for number in re.finditer(r'\d+', engine_line):
-        is_part_number = check_part_number(number, engine_line)
-        is_part_number |= check_part_number(number, prev_line)
+        area = get_area_indexes(cr, number.start(), number.end())
 
-        if is_part_number:
-            found_part_numbers.append(number)
-        else:
-            # ! only track number if not yet found connected
-            obscure_numbers.append(number)
+        for x, y in area:
+            if any([not (0 <= x < len(engine_schematic)),
+                   not (0 <= y < len(engine_schematic[cr]))]):
+                continue
 
-    prev_line = engine_line  # track for next iteration
+            if engine_schematic[x][y] == '*':
+                print(number)
 
-mark(found_part_numbers, prev_line)  # very last line
+
+# mark(found_part_numbers, prev_line)  # very last line
 
 answer = 0  # //TODO: calculate the final answer here
-print(f"[[[ Final Answer Is: {answer} ]]]")
+print(f"[ Total Gear Ratio Is: {answer} ]")
