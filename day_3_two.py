@@ -46,8 +46,6 @@ def check_part_number(number: re.Match, engine_line: str) -> bool:
 input_file = f"{getcwd()}/input.txt"
 inputs = (i for i in open(input_file))
 
-answer = 0  # hold the expected output
-
 prev_line, obscure_numbers, found_part_numbers = None, [], []
 
 for input_line in inputs:
@@ -57,7 +55,6 @@ for input_line in inputs:
         number, obscure_numbers = obscure_numbers[0], obscure_numbers[1:]
 
         if check_part_number(number, engine_line):
-            answer += int(number.group(0))
             found_part_numbers.append(number)
 
     if prev_line:
@@ -70,7 +67,6 @@ for input_line in inputs:
         is_part_number |= check_part_number(number, prev_line)
 
         if is_part_number:
-            answer += int(number.group(0))
             found_part_numbers.append(number)
         else:
             # ! only track number if not yet found connected
@@ -80,4 +76,5 @@ for input_line in inputs:
 
 mark(found_part_numbers, prev_line)  # very last line
 
+answer = 0  # //TODO: calculate the final answer here
 print(f"[[[ Final Answer Is: {answer} ]]]")
