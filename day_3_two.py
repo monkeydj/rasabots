@@ -10,7 +10,7 @@ from sys import argv
 import re
 
 
-def get_surrounding_indexes(r_i: int, start: int, end: int) -> list[tuple]:
+def index_surrounding(r_i: int, start: int, end: int) -> list[tuple]:
     rows = [r_i + r for r in [-1, 0, 1]]
     cols = range(start - 1, end + 1)
     surrounding = [(x, y) for x in rows for y in cols]
@@ -23,11 +23,9 @@ def get_surrounding_indexes(r_i: int, start: int, end: int) -> list[tuple]:
 engine_schematic = open(argv[1]).read().split()
 found_gear_parts = defaultdict(list)
 
-answer = 0
-
 for cr, engine_line in enumerate(engine_schematic):
     for number in re.finditer(r'\d+', engine_line):
-        surrounding = get_surrounding_indexes(cr, number.start(), number.end())
+        surrounding = index_surrounding(cr, number.start(), number.end())
 
         print(number, surrounding)
 
@@ -39,13 +37,12 @@ for cr, engine_line in enumerate(engine_schematic):
             if engine_schematic[x][y] != '*':
                 continue
 
-            found_gear_parts[(x, y)].append((cr, number))
+            found_gear_parts[(x, y)].append(int(number.group(0)))
+            print((x, y, found_gear_parts[(x, y)]))  # after addition
 
-            print((x, y, found_gear_parts[(x, y)]))
 
-            if len(found_gear_parts[(x, y)]) == 2:
-                part_numbers = [int(number.group(0))
-                                for cr, number in found_gear_parts[(x, y)]]
-                answer += part_numbers[0] * part_numbers[1]
+answer = sum([part_numbers[0] * part_numbers[1]
+              for part_numbers in found_gear_parts.values()
+              if len(part_numbers) == 2])
 
 print(f"[ Total Gear Ratio Is: {answer} ]")
