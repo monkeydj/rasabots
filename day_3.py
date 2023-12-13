@@ -8,12 +8,13 @@ from os import getcwd
 import re
 
 
-def mark(part_number: int, output_line: str = "") -> str:
-    def hightlight(m):
-        # ref: https://stackoverflow.com/a/51708889/8546076
-        return "\033[4m\033[92m" + m.group(0) + "\033[0m"
+def mark(part_number: re.Match, output_line: str = "") -> str:
+    # ref: https://stackoverflow.com/a/51708889/8546076
+    marked = "\033[4m\033[92m" + part_number.group(0) + "\033[0m"
+    first_half = output_line[:part_number.start()]
+    second_half = output_line[part_number.end():]
 
-    return re.sub(str(part_number), hightlight, output_line)
+    return first_half + marked + second_half
 
 
 def check_part_number(number: re.Match, engine_line: str) -> int | None:
@@ -51,7 +52,7 @@ for input_line in inputs:
 
         if part_number:
             parts_sum += part_number
-            output_line = mark(part_number, output_line)
+            output_line = mark(number, output_line)
 
     if output_line:
         print(output_line)
@@ -68,7 +69,7 @@ for input_line in inputs:
             prev_numbers.append(number)
         else:
             parts_sum += part_number
-            output_line = mark(part_number, output_line)
+            output_line = mark(number, output_line)
 
     prev_line = engine_line  # track for next iteration
     answer += parts_sum
