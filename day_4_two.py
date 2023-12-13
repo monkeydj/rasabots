@@ -17,12 +17,13 @@ for n, card in enumerate(scratchcards):
 
     winning, having = re.sub(r"Card \d+: ", "", card).split(" | ")
     winning, having = winning.split(), having.split()
-    # print(winning, "x", having, end=" = ")
+
     # (Cards will never make you copy a card past the end of the table.)
     copies = 0
     for n in having:
         if n in winning:
             copies += 1
+            winnng_copies[copies] += 1
 
     print(copies)
 
