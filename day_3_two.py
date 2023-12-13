@@ -7,29 +7,7 @@ This adheres a solution of Day 3 puzzle Part Two
 from collections import defaultdict
 from sys import argv
 
-
-def calculate_gear_ratio(engine_schematic):
-    # NOTE: Bard helped me - https://g.co/bard/share/3cd2369c7b9e
-    gears = []
-    for i in range(len(engine_schematic)):
-        for j in range(len(engine_schematic[i])):
-            if engine_schematic[i][j] == "*":
-                # Check if the symbol is adjacent to two digits
-                if (
-                    0 <= i - 1 < len(engine_schematic)
-                    and 0 <= j - 1 < len(engine_schematic[i])
-                    and engine_schematic[i - 1][j - 1].isdigit()
-                    and 0 <= i + 1 < len(engine_schematic)
-                    and 0 <= j + 1 < len(engine_schematic[i])
-                    and engine_schematic[i + 1][j + 1].isdigit()
-                ):
-                    # Add the gear to the list with its gear ratio
-                    gears.append(
-                        (
-                            int(engine_schematic[i - 1][j - 1]),
-                            int(engine_schematic[i + 1][j + 1]),
-                        )
-                    )
+import re
 
 
 def mark(part_numbers: list[re.Match], output_line: str = ""):
