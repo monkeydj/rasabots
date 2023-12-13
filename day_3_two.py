@@ -37,7 +37,7 @@ def check_part_number(number: re.Match, engine_line: str) -> bool:
     start = max(0, number.start() - 1)
     end = min(len(engine_line), number.end() + 1)
     engine_slice = engine_line[start:end]
-    connected = re.search(r'[^\w\.]', engine_slice)
+    connected = re.search(r'\*{1}', engine_slice)
 
     return connected is not None
 
