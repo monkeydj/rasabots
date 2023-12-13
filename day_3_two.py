@@ -10,9 +10,12 @@ from sys import argv
 import re
 
 
-def get_area_indexes(r_i: int, start: int, end: int) -> list[tuple]:
-    rows, cols = [r_i + r for r in [-1, 0, 1]], range(start, end + 1)
-    return [(x, y) for x in rows for y in cols]
+def get_surrounding_indexes(r_i: int, start: int, end: int) -> list[tuple]:
+    rows = [r_i + r for r in [-1, 0, 1]]
+    cols = range(start - 1, end + 1)
+    surrounding = [(x, y) for x in rows for y in cols]
+
+    return surrounding
 
 
 # --- main process ----
@@ -24,11 +27,11 @@ answer = 0
 
 for cr, engine_line in enumerate(engine_schematic):
     for number in re.finditer(r'\d+', engine_line):
-        area = get_area_indexes(cr, number.start(), number.end())
+        surrounding = get_surrounding_indexes(cr, number.start(), number.end())
 
-        print(number, area)
+        print(number, surrounding)
 
-        for x, y in area:
+        for x, y in surrounding:
             if any([not (0 <= x < len(engine_schematic)),
                    not (0 <= y < len(engine_schematic[cr]))]):
                 continue
