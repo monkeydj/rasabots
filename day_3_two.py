@@ -28,8 +28,7 @@ def mark(part_numbers: list[re.Match], output_line: str = ""):
 
 def check_part_number(number: re.Match, engine_line: str) -> bool:
     """
-    As one may be adjacent to one or many symbols, so simply
-    find if any symbol is around number's span in engine_line.
+    Find if any star symbol is around number's span in engine_line.
     """
     if engine_line is None or len(engine_line) == 0:
         return 0
