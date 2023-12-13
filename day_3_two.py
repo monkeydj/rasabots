@@ -27,7 +27,7 @@ for cr, engine_line in enumerate(engine_schematic):
     for number in re.finditer(r'\d+', engine_line):
         surrounding = index_surrounding(cr, number.start(), number.end())
 
-        print(number, surrounding)
+        print(number, surrounding)  # just for eye-debugging
 
         for x, y in surrounding:
             if (not (0 <= x < len(engine_schematic)) or
