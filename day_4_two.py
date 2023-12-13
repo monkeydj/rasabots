@@ -21,7 +21,10 @@ for i, card in enumerate(scratchcards):
     for n in having:
         if n in winning:
             scored = 1 if scored == 0 else scored * 2
-            winnng_copies[i + (scored // 2)] += 1
+            # win a copy of next card
+            winnng_copies[i + (scored // 2) + 1] += 1
+    if scored > 0:
+        winnng_copies[i] += 1  # win a copy of itself
 
     print(scored, "copies=", winnng_copies[i])
 
