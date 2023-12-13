@@ -40,14 +40,14 @@ inputs = (i for i in open(input_file))
 
 answer = 0  # hold the expected output
 
-prev_line, prev_numbers = None, []
+prev_line, obscure_numbers = None, []
 output_line = None
 
 for input_line in inputs:
     parts_sum, engine_line = 0, input_line.strip()
 
-    while len(prev_numbers) > 0:
-        number, prev_numbers = prev_numbers[0], prev_numbers[1:]
+    while len(obscure_numbers) > 0:
+        number, obscure_numbers = obscure_numbers[0], obscure_numbers[1:]
 
         if check_part_number(number, engine_line):
             parts_sum += int(number.group(0))
@@ -68,7 +68,7 @@ for input_line in inputs:
             output_line = mark(number, output_line)
         else:
             # ! only track number if not yet found connected
-            prev_numbers.append(number)
+            obscure_numbers.append(number)
 
     prev_line = engine_line  # track for next iteration
     answer += parts_sum
