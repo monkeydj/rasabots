@@ -13,8 +13,10 @@ def mark(part_numbers: list[re.Match], output_line: str = ""):
     Print out found part_numbers highlighted in output_line.
     """
     chunk_start = 0
+    # as they are found not in order of appearance in output_line
+    part_numbers_ordered = sorted(part_numbers, key=lambda n: n.start())
 
-    for number in part_numbers:
+    for number in part_numbers_ordered:
         print(output_line[chunk_start:number.start()], end="")
         # ref: https://stackoverflow.com/a/51708889/8546076
         print("\033[4m\033[92m" + number.group(0) + "\033[0m", end="")
