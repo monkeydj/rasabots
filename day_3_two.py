@@ -52,13 +52,13 @@ answer = 0  # hold the expected output
 prev_line, obscure_numbers, found_part_numbers = None, [], []
 
 for input_line in inputs:
-    parts_sum, engine_line = 0, input_line.strip()
+    engine_line = input_line.strip()
 
     while len(obscure_numbers) > 0:
         number, obscure_numbers = obscure_numbers[0], obscure_numbers[1:]
 
         if check_part_number(number, engine_line):
-            parts_sum += int(number.group(0))
+            answer += int(number.group(0))
             found_part_numbers.append(number)
 
     if prev_line:
@@ -71,14 +71,13 @@ for input_line in inputs:
         is_part_number |= check_part_number(number, prev_line)
 
         if is_part_number:
-            parts_sum += int(number.group(0))
+            answer += int(number.group(0))
             found_part_numbers.append(number)
         else:
             # ! only track number if not yet found connected
             obscure_numbers.append(number)
 
     prev_line = engine_line  # track for next iteration
-    answer += parts_sum
 
 mark(found_part_numbers, prev_line)  # very last line
 
