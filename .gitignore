@@ -3,6 +3,9 @@
 .env
 
 *.txt
+*.in
+*.out
+*.log
 
 *.png
 *.jpg
