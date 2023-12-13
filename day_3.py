@@ -17,7 +17,7 @@ def mark(part_number: re.Match, output_line: str = "") -> str:
     return first_half + marked + second_half
 
 
-def check_part_number(number: re.Match, engine_line: str) -> int | None:
+def check_part_number(number: re.Match, engine_line: str) -> bool:
     """
     As one may be adjacent to one or many symbols, so simply
     find if any symbol is around number's span in engine_line.
@@ -30,7 +30,7 @@ def check_part_number(number: re.Match, engine_line: str) -> int | None:
     engine_slice = engine_line[start: end]
     connected = re.search(r'[^\w\.]', engine_slice)
 
-    return int(number.group(0)) if connected else None
+    return connected is not None
 
 
 # --- main process ----
@@ -48,10 +48,9 @@ for input_line in inputs:
 
     while len(prev_numbers) > 0:
         number, prev_numbers = prev_numbers[0], prev_numbers[1:]
-        part_number = check_part_number(number, engine_line)
 
-        if part_number:
-            parts_sum += part_number
+        if check_part_number(number, engine_line):
+            parts_sum += int(number.group(0))
             output_line = mark(number, output_line)
 
     if output_line:
@@ -61,15 +60,15 @@ for input_line in inputs:
     output_line = engine_line
 
     for number in re.finditer(r'\d+', engine_line):
-        part_number = check_part_number(number, prev_line) or \
-            check_part_number(number, engine_line)
+        is_part_number = check_part_number(number, engine_line)
+        is_part_number |= check_part_number(number, prev_line)
 
-        if not part_number:
+        if is_part_number:
+            parts_sum += int(number.group(0))
+            output_line = mark(number, output_line)
+        else:
             # ! only track number if not yet found connected
             prev_numbers.append(number)
-        else:
-            parts_sum += part_number
-            output_line = mark(number, output_line)
 
     prev_line = engine_line  # track for next iteration
     answer += parts_sum
