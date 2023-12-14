@@ -18,9 +18,10 @@ def find_dest_pos(src_pos: int, src_dest_ranges: list[int]) -> int:
 
 seeds, *maps = open(argv[1]).read().split('\n\n')
 # (it just changes the format of seed range)
-fst_start, fst_range, snd_start, snd_range = list(map(int, seeds.split()[1:]))
-positions = (list(range(fst_start, fst_start + fst_range)) +
-             list(range(snd_start, snd_start + snd_range)))
+seed_ranges, positions = list(map(int, seeds.split()[1:])), []
+for i in range(0, len(seed_ranges), 2):
+    seed_start, seed_range = seed_ranges[i], seed_ranges[i + 1]
+    positions = list(range(seed_start, seed_start + seed_range))
 
 print("seeds=", positions)
 
