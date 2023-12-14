@@ -6,8 +6,8 @@ This adheres a solution of Day 5 puzzle
 from sys import argv
 
 
-def find_src_pos(dest_pos: int, src: int, dest: int, length: int) -> int:
-    return src + (dest_pos - dest) if dest <= dest_pos < dest + length else dest_pos
+def find_dest_pos(src_pos: int, dest: int, src: int, length: int) -> int:
+    return dest + (src_pos - src) if src <= src_pos < src + length else src_pos
 
 
 seeds, *maps = open(argv[1]).read().split('\n\n')
@@ -22,10 +22,10 @@ for categories_map in maps:
     # ? if the maps are not in order of downstream
 
     for i in range(0, len(ranges), 3):
-        src_dest_range = [int(n) for n in ranges[i:(i + 3)]]
-        positions = [find_src_pos(p, *src_dest_range) for p in positions]
+        src, dest, length = [int(n) for n in ranges[i:(i + 3)]]
+        positions = [find_dest_pos(p, src, dest, length) for p in positions]
 
-        print(src_to_dest + "=", positions, "/", src_dest_range)
+        print(src_to_dest + "=", positions, "/ map=", [src, dest, length])
 
 answer = min(positions)
 print(f"[Total Score Is: {answer}]")
