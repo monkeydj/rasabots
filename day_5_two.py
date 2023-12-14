@@ -1,6 +1,10 @@
 """
 This adheres a solution of Day 5 puzzle Part Two
 - https://adventofcode.com/2023/day/5#part2
+
+Some references for efficient range lookup:
+- https://github.com/jonathanpaulson/AdventOfCode/blob/master/2023/5.py
+- https://github.com/womogenes/AoC-2023-Solutions/blob/main/day_05/day_05_p2.py
 """
 
 from sys import argv
@@ -38,14 +42,10 @@ for categories_map in maps:
         print(map_name, "/ map=", (dest_start, src_start, length))
 
 
-seed_ranges, min_pos = seeds.split()[1:], float("inf")
+seeds = [int(s) for s in seeds.split()[1:]]
 
-for i in range(0, len(seed_ranges), 2):
-    seed_start, seed_length = int(seed_ranges[i]), int(seed_ranges[i + 1])
+for seed_range in list(zip(seeds[::2], seeds[1::2])):
 
-    for seed in range(seed_start, seed_start + seed_length):
-        min_pos = min(min_pos, lookup(seed, almanac))
+    print("seed_range=", f"({seed_range})")
 
-    print("seeds=", f"({seed_start} + {seed_length})", "min_pos=", min_pos)
-
-print(f"[Min Position Is: {min_pos}]")
+print(f"[Min Position Is: {0}]")
