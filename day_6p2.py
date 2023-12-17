@@ -26,5 +26,7 @@ time, distance = (rekern(times), rekern(distances))
 print(f"record: {time} ms / {distance} mm")
 
 answer = outrun(int(time), int(distance))
+# another interesting solution:
+# https://github.com/jonathanpaulson/AdventOfCode/blob/master/2023/6_binary_search.py#L21
 
 print(f"[Total Score Is: {answer}]")
