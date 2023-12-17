@@ -18,7 +18,7 @@ def lookup(s_start: int, s_length: int, almanac: list[list[set]]) -> list[set]:
 
         for dest_start, src_start, length in dest_loc:
             src_end = src_start + length - 1
-
+            # ? TODO: how-to slice into ranges for being looped through
             for start, end in locations[-2]:  # loop through src locations
 
                 if start > src_end or end < src_start:
