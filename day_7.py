@@ -6,7 +6,7 @@ This adheres a solution of Day 7 puzzle
 from collections import Counter
 
 
-CARDS = 'AKQJT98765432'
+CARDS = list(reversed('AKQJT98765432'))
 
 
 def get_kind(cards: str) -> int:
@@ -30,7 +30,8 @@ def get_kind(cards: str) -> int:
 
 def check_hand(hand: str) -> set:
     cards, _ = hand.split()
-    return {get_kind(cards), hand}
+    strengths = [CARDS.index(c) for c in cards]
+    return [get_kind(cards), *strengths]
 
 
 camel_game = open("data.in").read().split("\n")
