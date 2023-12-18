@@ -3,17 +3,45 @@ This adheres a solution of Day 7 puzzle
 - https://adventofcode.com/2023/day/7
 """
 
+from collections import Counter
 
-def compare(hand_a: str, hand_b: str) -> int:
-    return 0
+
+CARDS = 'AKQJT98765432'
+
+
+def get_kind(cards: str) -> int:
+    c_cnt = sorted(Counter(cards).values())
+
+    if c_cnt == [5]:  # five of a kind
+        return 5
+    elif c_cnt == [1, 4]:  # four of a kind
+        return 4
+    elif c_cnt == [2, 3]:  # three of a kind + a pair
+        return 3.5
+    elif c_cnt == [1, 1, 3]:  # three of a kind
+        return 3
+    elif c_cnt == [1, 2, 2]:  # 2 pairs
+        return 2.5
+    elif c_cnt == [1, 1, 1, 2]:  # a pair
+        return 2
+
+    return 0  # any high card
+
+
+def check_hand(hand: str) -> set:
+    cards, _ = hand.split()
+    return {get_kind(cards), hand}
 
 
 camel_game = open("data.in").read().split("\n")
+ranked_game = enumerate(sorted(camel_game, key=check_hand))
 
 answer = 0
 
-for a_hand in camel_game:
+for rank, a_hand in ranked_game:
     cards, bid = a_hand.split()
     print(f"hand: {cards} bid= {bid}")
+
+    answer += int(bid) * (rank + 1)
 
 print(f"[Total Winnings Is: {answer}]")
