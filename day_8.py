@@ -5,19 +5,22 @@ This adheres a solution of Day 8 puzzle
 
 
 def parse(n: str) -> set:
-    node, network = n.split(" = ")
-    return (node, network[1:-1].split(", "))
+    return (lambda a, b: (a, b[1:-1].split(", ")))(*n.split(" = "))
+
+
+def traverse(instruct: str):
+    while True:
+        for i in instruct:
+            yield 0 if i == "L" else 1
 
 
 instruct, _, *network = open("data.in").read().split("\n")
 nodes = dict([parse(n) for n in network])
+travel_n, steps, step = "AAA", 0, traverse(instruct)
 
-travel_n, answer = 'AAA', 0
+while travel_n != "ZZZ":
+    print(f"{travel_n} => {nodes[travel_n]}")
+    travel_n = nodes[travel_n][next(step)]
+    steps += 1
 
-for node, connected in nodes.items():
-    print(f"{node} => {connected}")
-
-    if travel_n == 'ZZZ':
-        break
-
-print(f"[Total Steps Is: {answer}]")
+print(f"[Total Steps Is: {steps}]")
