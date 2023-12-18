@@ -16,11 +16,18 @@ def traverse(instruct: str):
 
 instruct, _, *network = open("data.in").read().split("\n")
 nodes = dict([parse(n) for n in network])
-travel_n, steps, step = "AAA", 0, traverse(instruct)
+travel_n = [n for n in nodes.keys() if n[-1] == "A"]
+steps, step = 0, traverse(instruct)
 
-while travel_n != "ZZZ":
-    print(f"{travel_n} => {nodes[travel_n]}")
-    travel_n = nodes[travel_n][next(step)]
-    steps += 1
+while True:
+    lr, steps = next(step), steps + 1
+    print(f"{travel_n}", end=f" =[{lr}]=> ")
+
+    travel_n = [nodes[n][lr] for n in travel_n]
+    print(travel_n)
+
+    if sum(1 for n in travel_n if n[-1] == "Z") == len(travel_n):
+        break
+
 
 print(f"[Total Steps Is: {steps}]")
