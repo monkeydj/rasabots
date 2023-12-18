@@ -1,6 +1,6 @@
 """
-This adheres a solution of Day 7 puzzle
-- https://adventofcode.com/2023/day/7
+This adheres a solution of Day 7 puzzle PART Two
+- https://adventofcode.com/2023/day/7#part2
 """
 
 from collections import Counter
