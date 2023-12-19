@@ -12,11 +12,12 @@ def traverse(history: str):
     stacks = [list(map(int, history.split()))]
 
     while True:
-        stacks.append(diff(stacks[-1]))
-        if all(s == 0 for s in stacks[-1]):
-            break
+        diff_v = diff(stacks[-1])
+        if all(s == 0 for s in diff_v):
+            break  # once it reaches the end
+        stacks.append(diff_v)
 
-    return sum(s[-1] for s in stacks[:-1:-1])
+    return sum(s[-1] for s in stacks[::-1])
 
 
 histories = open("data.in").read().split("\n")
