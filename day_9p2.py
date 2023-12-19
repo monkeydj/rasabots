@@ -1,6 +1,6 @@
 """
-This adheres a solution of Day 9 puzzle
-- https://adventofcode.com/2023/day/9
+This adheres a solution of Day 9 puzzle PART Two
+- https://adventofcode.com/2023/day/9#part2
 """
 
 
@@ -17,10 +17,14 @@ def traverse(history: str):
             break  # once it reaches the end
         stacks.append(diff_v)
 
-    return sum(s[-1] for s in stacks[::-1])
+    back_n = 0
+    for s in stacks[::-1]:
+        back_n = s[0] - back_n
+
+    return back_n
 
 
 histories = open("data.in").read().split("\n")
 preds_n = [traverse(h) for h in histories]
 
-print(f"[Extrapolated Value Is: {sum(preds_n)}]")
+print(f"[Extrapolated Prev. Value Is: {sum(preds_n)}]")
