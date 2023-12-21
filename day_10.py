@@ -5,7 +5,17 @@ This adheres a solution of Day 10 puzzle
 
 pipe_maze = open("data.in").read().split()
 
-for p in pipe_maze:
-    print(p)
+s_point = None
 
-print(f"[Extrapolated Value Is: {0}]")
+for i, p in enumerate(pipe_maze):
+    for j in range(len(p)):
+        if p[j] == 'S':
+            s_point = [i, j]
+            break
+
+    if s_point:
+        break  # found S, start tracing
+
+
+print("Starting point", s_point)
+print(f"[Farthest Step Is: {0}]")
