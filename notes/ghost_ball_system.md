@@ -12,7 +12,7 @@ https://youtu.be/jmI1ZiuOqUs?si=rtvaqUtwHjzHnTog
 | `lc` | long diamonds of cue ball |
 | `lo` | long diamonds of object ball |
 | `so` | short diamonds between cue ball and object ball |
-| `fo` | extended long diamonds of ghost ball |
+| `fo` | extended long diamonds of ghost ball (over to the other side of mirroring cushion) |
 | `s` | striking diamonds on short cushion (counted from cue ball) |
 
 Basic calculation is $so / fo = s / lc$, therefore $s = (so * lc) / fo$
@@ -24,3 +24,10 @@ s = (so * lc) / (lc + lo) \\
 s = (so * lc) / lc + (so * lc) / lo \\
 \therefore s = so + (so * lc) / lo 
 $$
+
+In other words, (simplified) instructions are follow, 
+1. Count number of diamonds to object ball `lo`
+2. Add up with number of diamonds to cue ball `lc`
+3. Find the fraction number `lc / lo`
+4. Count number of diamonds (on the other cushion) to cue ball `so`
+5. ...
