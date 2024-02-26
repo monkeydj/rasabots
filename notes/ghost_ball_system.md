@@ -5,6 +5,10 @@ https://youtu.be/jmI1ZiuOqUs?si=rtvaqUtwHjzHnTog
 - towards same short cushion
 - effect 0
 
+Notes:
+- Striking cushion is where cue ball is being aimed towards
+- Side cushion is perpendicular to above
+
 **Formulation**
 
 | Variable | Description |
