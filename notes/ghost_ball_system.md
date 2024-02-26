@@ -25,7 +25,7 @@ s = (so * lc) / lc + (so * lc) / lo \\
 \therefore s = so + (so * lc) / lo 
 $$
 
-In other words, (simplified) instructions are follow, 
+Instructions (simplified) are follow
 1. Count number of diamonds to object ball `lo`
 2. Add up with number of diamonds to cue ball `lc`
 3. Find the fraction number `lc / lo`
