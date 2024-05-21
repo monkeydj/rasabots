@@ -16,14 +16,14 @@ fn main() {
     // println!("pattern: {:?}, path: {:?}", args.pattern, args.path);
 
     let result = std::fs::read_to_string(args.path);
-    match result {
-        Ok(content) => {
-            println!("The file content:\n{}", content);
-        }
+    let content = match result {
+        Ok(content) => content,
         Err(error) => {
-            println!("The file cannot be read: {}", error);
+            panic!("The file cannot be read: {}", error);
         }
-    }
+    };
+
+    println!("The file content:\n{}", content);
 
     // for line in content.lines() {
     //     if line.contains(&args.pattern) {
