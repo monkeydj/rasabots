@@ -24,7 +24,7 @@ fn main() {
     let mut line = String::new();
     loop {
         reader.read_line(&mut line).expect("[End of file]");
-        if line.is_empty() {
+        if reader.buffer().is_empty() {
             break;
         }
         if line.contains(&args.pattern) {
