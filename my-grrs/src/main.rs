@@ -13,6 +13,13 @@ struct CliArgs {
 
 fn main() {
     let args = CliArgs::parse();
+    // println!("pattern: {:?}, path: {:?}", args.pattern, args.path);
 
-    println!("pattern: {:?}, path: {:?}", args.pattern, args.path);
+    let content = std::fs::read_to_string(args.path).expect("The file cannot be read");
+
+    for line in content.lines() {
+        if line.contains(&args.pattern) {
+            println!("{}", line)
+        }
+    }
 }
