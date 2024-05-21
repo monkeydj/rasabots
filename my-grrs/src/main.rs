@@ -15,11 +15,19 @@ fn main() {
     let args = CliArgs::parse();
     // println!("pattern: {:?}, path: {:?}", args.pattern, args.path);
 
-    let content = std::fs::read_to_string(args.path).expect("The file cannot be read");
-
-    for line in content.lines() {
-        if line.contains(&args.pattern) {
-            println!("{}", line)
+    let result = std::fs::read_to_string(args.path);
+    match result {
+        Ok(content) => {
+            println!("The file content:\n{}", content);
+        }
+        Err(error) => {
+            println!("The file cannot be read: {}", error);
         }
     }
+
+    // for line in content.lines() {
+    //     if line.contains(&args.pattern) {
+    //         println!("{}", line)
+    //     }
+    // }
 }
