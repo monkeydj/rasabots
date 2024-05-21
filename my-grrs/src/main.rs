@@ -11,16 +11,14 @@ struct CliArgs {
     path: std::path::PathBuf,
 }
 
-fn main() {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = CliArgs::parse();
     // println!("pattern: {:?}, path: {:?}", args.pattern, args.path);
 
     let result = std::fs::read_to_string(args.path);
     let content = match result {
         Ok(content) => content,
-        Err(error) => {
-            panic!("The file cannot be read: {}", error);
-        }
+        Err(error) => return Err(error.into()),
     };
     // or shortcut for above 2 expressions
     // let content = std::fs::read_to_string(args.path).unwrap();
@@ -32,4 +30,6 @@ fn main() {
     //         println!("{}", line)
     //     }
     // }
+
+    Ok(())
 }
