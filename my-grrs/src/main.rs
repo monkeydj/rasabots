@@ -4,10 +4,10 @@ use clap::Parser;
 #[derive(Parser)]
 struct CliArgs {
     /// The pattern to look for in designated file
-    #[arg(short = 'x', long)]
+    #[arg(short = 's', long)]
     pattern: String,
     /// The path to file to be searched
-    #[arg(short = 'p', long)]
+    #[arg(short = 'f', long)]
     path: std::path::PathBuf,
 }
 
