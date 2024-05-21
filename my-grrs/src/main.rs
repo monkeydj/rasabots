@@ -22,6 +22,8 @@ fn main() {
             panic!("The file cannot be read: {}", error);
         }
     };
+    // or shortcut for above 2 expressions
+    // let content = std::fs::read_to_string(args.path).unwrap();
 
     println!("The file content:\n{}", content);
 
