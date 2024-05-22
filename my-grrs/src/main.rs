@@ -29,8 +29,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // let content = std::fs::read_to_string(args.path)?;
 
     // attempt to provide more error context
+    let filepath = args.path.clone().display();
     let buff = std::fs::read(args.path)
-        .with_context(|| format!("The file cannot be read: `{}`", args.path.display()))?;
+        .with_context(|| format!("The file cannot be read: `{}`", filepath))?;
     let content = String::from_utf8(buff)?;
 
     println!("The file content:\n{}", content);
