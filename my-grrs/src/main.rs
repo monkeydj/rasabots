@@ -11,6 +11,9 @@ struct CliArgs {
     path: std::path::PathBuf,
 }
 
+#[derive(Debug)]
+struct FileError(String);
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = CliArgs::parse();
     // println!("pattern: {:?}, path: {:?}", args.pattern, args.path);
@@ -23,7 +26,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // or shortcut for above 2 expressions
     // let content = std::fs::read_to_string(args.path).unwrap();
     // same as
-    let content = std::fs::read_to_string(args.path)?;
+    // let content = std::fs::read_to_string(args.path)?;
+
+    // custom error handling
+    let content = std::fs::read_to_string(args.path)
+        .map_err(|err| {
+            FileError(format!(
+                "File cannot be read `{}`: {}",
+                args.path.display(),
+                err
+            ))
+        })
+        .unwrap();
 
     println!("The file content:\n{}", content);
 
