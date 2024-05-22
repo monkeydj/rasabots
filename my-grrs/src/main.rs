@@ -1,3 +1,5 @@
+use std::io::BufReader;
+
 use anyhow::{Context, Result};
 use clap::Parser;
 
@@ -24,8 +26,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // or shortcut for above 2 expressions
     // let content = std::fs::read_to_string(args.path).unwrap();
     // same as
-    let content = std::fs::read_to_string(args.path)
+    // let content = std::fs::read_to_string(args.path)?;
+
+    // attempt to provide more error context
+    let buff = std::fs::read(args.path)
         .with_context(|| format!("The file cannot be read: `{}`", args.path.display()))?;
+    let content = String::from_utf8(buff)?;
 
     println!("The file content:\n{}", content);
 
