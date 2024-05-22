@@ -32,11 +32,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     println!("The file content:\n{}", content);
 
-    // for line in content.lines() {
-    //     if line.contains(&args.pattern) {
-    //         println!("{}", line)
-    //     }
-    // }
+    for line in content.lines() {
+        if line.contains(&args.pattern) {
+            println!("{}", line)
+        }
+    }
 
     Ok(())
 }
