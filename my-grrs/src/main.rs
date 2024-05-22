@@ -1,3 +1,4 @@
+use anyhow::{Context, Result};
 use clap::Parser;
 
 /// Search for a pattern in a file and display the lines that contain it.
@@ -23,7 +24,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // or shortcut for above 2 expressions
     // let content = std::fs::read_to_string(args.path).unwrap();
     // same as
-    let content = std::fs::read_to_string(args.path)?;
+    let content = std::fs::read_to_string(args.path)
+        .with_context(|| format!("The file cannot be read: `{}`", args.path.display()))?;
 
     println!("The file content:\n{}", content);
 
