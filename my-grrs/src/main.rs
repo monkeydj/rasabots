@@ -12,6 +12,14 @@ struct CliArgs {
     path: std::path::PathBuf,
 }
 
+fn find_matches(content: &str, pattern: &str) {
+    for line in content.lines() {
+        if line.contains(pattern) {
+            println!("{}", line)
+        }
+    }
+}
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = CliArgs::parse();
     // println!("pattern: {:?}, path: {:?}", args.pattern, args.path);
@@ -32,11 +40,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     println!("The file content:\n{}", content);
 
-    for line in content.lines() {
-        if line.contains(&args.pattern) {
-            println!("{}", line)
-        }
-    }
+    find_matches(&content, &args.pattern);
 
     Ok(())
 }
